@@ -84,7 +84,6 @@ function nextQuestion(questionCounter) {
 }
 
 function startQuiz() {
-  console.log("working");
   startPage.classList.add("d-none");
   nextQuestion(questionCounter);
 }
@@ -97,6 +96,8 @@ function selectAnswer(event) {
   console.log(event.target);
   if (event.target.matches("button")) {
     var answer = event.target.textContent;
+    questionCounter++;
+    nextQuestion();
   }
 }
 
@@ -109,4 +110,4 @@ startBtn.addEventListener("click", function () {
   startTimer();
 });
 
-questionContentEl.addEventListener("click", selectAnswer);
+questionContentEl.addEventListener("click", selectAnswer());
