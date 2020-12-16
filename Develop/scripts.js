@@ -55,7 +55,7 @@ var interval;
 var questionCounter = 0;
 var score = 0;
 
-// Function Definitions
+// start timer function - starts timer
 function startTimer() {
   interval = setInterval(function () {
     seconds--;
@@ -66,13 +66,9 @@ function startTimer() {
     }
   }, 1000);
 }
-// deduct time function - takes 10 seconds off time
-// correct function - lets user know if answer is correct or incorrect
-// start quiz function - starts quiz and timer
 // next question function - shows the next question
 function nextQuestion(questionCounter) {
   if (questions.length === questionCounter) {
-    console.log("end of game");
     endGame();
   }
 
@@ -93,12 +89,12 @@ function nextQuestion(questionCounter) {
     liEL.appendChild(btnEl);
   }
 }
-
+// start quiz function - starts quiz
 function startQuiz() {
   startPage.classList.add("d-none");
   nextQuestion(questionCounter);
 }
-
+// correct function - lets user know if answer is correct or incorrect
 function correctAnswer(answer) {
   if (answer === questions[questionCounter - 1].correctAnswer) {
     
@@ -106,7 +102,7 @@ function correctAnswer(answer) {
     deductTime();
   }
 }
-
+// deduct time function - takes 10 seconds off time
 function deductTime() {
   seconds -= 10;
 }
@@ -119,36 +115,37 @@ function selectAnswer(event) {
     nextQuestion(questionCounter);
   }
 }
-
+// end game function - stops timer and shows score
 function endGame() {
   clearInterval(interval);
   endPage.innerHTML = "";
   endPage.classList.remove("d-none");
   score = seconds;
   var ulEl = document.createElement("ul");
-  ulEl.style = "list-style-type: none";
-  endPage.appendChild(ulEl);
   var liEl1 = document.createElement("li");
   var liEl2 = document.createElement("li");
   var liEl3 = document.createElement("li");
+  var endPageEl = document.createElement("h4");
+  var scoreEl = document.createElement("p");
+  var input = document.createElement("input");
+  var btnEl = document.createElement("button");
+  endPage.appendChild(ulEl);
   ulEl.appendChild(liEl1);
   ulEl.appendChild(liEl2);
   ulEl.appendChild(liEl3);
-  var endPageEl = document.createElement("h4");
   endPageEl.textContent = "All Done!";
+  scoreEl.textContent = "Your final score is " + score;
+  liEl3.textContent = "Enter Initials: ";
+  btnEl.textContent = "submit";
   liEl1.appendChild(endPageEl);
-  var scoreEl = document.createElement("p");
-  scoreEl.textContent = "Your final score is "+score;
   liEl2.appendChild(scoreEl);
+  liEl3.appendChild(input).appendChild(btnEl);
+  ulEl.style = "list-style-type: none";
 }
-
-// Function Calls
-// Event Listeners
-// listen for if a button is clicked
 // listen for when the start button is clicked
 startBtn.addEventListener("click", function () {
   startQuiz();
   startTimer();
 });
-
+// listen for if a button is clicked
 questionContentEl.addEventListener("click", selectAnswer);
