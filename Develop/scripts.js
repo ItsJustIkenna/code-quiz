@@ -3,7 +3,7 @@ var startBtn = document.querySelector(".start-btn");
 var time = document.querySelector("#timer");
 var questionContentEl = document.getElementById("question-content");
 var startPage = document.querySelector("#start-page");
-var correctEl = document.querySelector(".correct");
+var endPage = document.querySelector("#end-page");
 // JavaScript Variables
 var questions = [
   {
@@ -73,6 +73,7 @@ function startTimer() {
 function nextQuestion(questionCounter) {
   if (questions.length === questionCounter) {
     console.log("end of game");
+    endGame();
   }
 
   questionContentEl.innerHTML = "";
@@ -118,10 +119,27 @@ function selectAnswer(event) {
     nextQuestion(questionCounter);
   }
 }
-function finalScore() {}
 
 function endGame() {
-  
+  clearInterval(interval);
+  endPage.innerHTML = "";
+  endPage.classList.remove("d-none");
+  score = seconds;
+  var ulEl = document.createElement("ul");
+  ulEl.style = "list-style-type: none";
+  endPage.appendChild(ulEl);
+  var liEl1 = document.createElement("li");
+  var liEl2 = document.createElement("li");
+  var liEl3 = document.createElement("li");
+  ulEl.appendChild(liEl1);
+  ulEl.appendChild(liEl2);
+  ulEl.appendChild(liEl3);
+  var endPageEl = document.createElement("h4");
+  endPageEl.textContent = "All Done!";
+  liEl1.appendChild(endPageEl);
+  var scoreEl = document.createElement("p");
+  scoreEl.textContent = "Your final score is "+score;
+  liEl2.appendChild(scoreEl);
 }
 
 // Function Calls
