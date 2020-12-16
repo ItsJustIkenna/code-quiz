@@ -3,6 +3,7 @@ var startBtn = document.querySelector(".start-btn");
 var time = document.querySelector("#timer");
 var questionContentEl = document.getElementById("question-content");
 var startPage = document.querySelector("#start-page");
+var correctEl = document.querySelector(".correct");
 // JavaScript Variables
 var questions = [
   {
@@ -52,12 +53,17 @@ var questions = [
 var seconds = 75;
 var interval;
 var questionCounter = 0;
+var score = 0;
 
 // Function Definitions
 function startTimer() {
   interval = setInterval(function () {
     seconds--;
     time.textContent = seconds;
+
+    if (seconds === 0) {
+      endGame();
+    }
   }, 1000);
 }
 // deduct time function - takes 10 seconds off time
@@ -65,6 +71,10 @@ function startTimer() {
 // start quiz function - starts quiz and timer
 // next question function - shows the next question
 function nextQuestion(questionCounter) {
+  console.log(questionCounter);
+
+  
+
   questionContentEl.innerHTML = "";
   questionContentEl.classList.remove("d-none");
   var ulEl = document.createElement("ul");
@@ -81,6 +91,16 @@ function nextQuestion(questionCounter) {
     btnEl.textContent = questions[questionCounter].answers[i];
     liEL.appendChild(btnEl);
   }
+
+  if (questions.length === questionCounter) {
+    console.log("end of game");
+    questionCounter = 0;
+    endGame();
+  }
+}
+
+function dance() {
+  questionContentEl.innerHTML ="";
 }
 
 function startQuiz() {
@@ -88,18 +108,31 @@ function startQuiz() {
   nextQuestion(questionCounter);
 }
 
-function correctAnswer() {}
+function correctAnswer(answer) {
+  if (answer === questions[questionCounter - 1].correctAnswer) {
+    var correct = document.createElement("h2");
+    correct.textContent = "Correct!";
+    correctEl.appendChild(correct);
+  } else {
+    deductTime();
+  }
+}
 
 function deductTime() {}
 
 function selectAnswer(event) {
-  console.log(event.target);
+  
+
   if (event.target.matches("button")) {
     var answer = event.target.textContent;
     questionCounter++;
-    nextQuestion();
+    correctAnswer(answer);
+    nextQuestion(questionCounter);
   }
 }
+function finalScore() {}
+
+function endGame() {}
 
 // Function Calls
 // Event Listeners
@@ -110,4 +143,4 @@ startBtn.addEventListener("click", function () {
   startTimer();
 });
 
-questionContentEl.addEventListener("click", selectAnswer());
+questionContentEl.addEventListener("click", selectAnswer);
