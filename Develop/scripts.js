@@ -71,9 +71,9 @@ function startTimer() {
 // start quiz function - starts quiz and timer
 // next question function - shows the next question
 function nextQuestion(questionCounter) {
-  console.log(questionCounter);
-
-  
+  if (questions.length === questionCounter) {
+    console.log("end of game");
+  }
 
   questionContentEl.innerHTML = "";
   questionContentEl.classList.remove("d-none");
@@ -91,16 +91,6 @@ function nextQuestion(questionCounter) {
     btnEl.textContent = questions[questionCounter].answers[i];
     liEL.appendChild(btnEl);
   }
-
-  if (questions.length === questionCounter) {
-    console.log("end of game");
-    questionCounter = 0;
-    endGame();
-  }
-}
-
-function dance() {
-  questionContentEl.innerHTML ="";
 }
 
 function startQuiz() {
@@ -110,19 +100,17 @@ function startQuiz() {
 
 function correctAnswer(answer) {
   if (answer === questions[questionCounter - 1].correctAnswer) {
-    var correct = document.createElement("h2");
-    correct.textContent = "Correct!";
-    correctEl.appendChild(correct);
+    
   } else {
     deductTime();
   }
 }
 
-function deductTime() {}
+function deductTime() {
+  seconds -= 10;
+}
 
 function selectAnswer(event) {
-  
-
   if (event.target.matches("button")) {
     var answer = event.target.textContent;
     questionCounter++;
@@ -132,7 +120,9 @@ function selectAnswer(event) {
 }
 function finalScore() {}
 
-function endGame() {}
+function endGame() {
+  
+}
 
 // Function Calls
 // Event Listeners
